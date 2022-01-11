@@ -8,16 +8,7 @@ import createAuth0Client, {
 import { invoke, until } from '@vueuse/core';
 import { reactive, ToRefs, toRefs } from 'vue';
 
-export interface Auth0User extends User {
-  name: string;
-  nickname: string;
-  org_id: string;
-  email: string;
-  email_verified: true;
-  picture: string;
-  updated_at: string;
-  sub: string;
-}
+export interface Auth0User extends User {}
 
 // Extract public interface from class definition
 // Not doing this would result into a conflict
