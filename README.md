@@ -9,14 +9,6 @@ This is heavily inspired by the [snippet](https://auth0.com/docs/quickstart/spa/
 yarn add @dreamonkey/vue-auth0
 ```
 
-## Uninstall
-
-```sh
-yarn remove @dreamonkey/vue-auth0
-```
-
-## Usage
-
 Initialize the singleton instance
 
 ```ts
@@ -31,7 +23,9 @@ declare module '@vue/runtime-core' {
 }
 
 // Vue CLI/Vite project
-const app = Vue.createApp({});
+import { createApp } from 'vue';
+
+const app = createApp({});
 
 app.config.globalProperties.$auth = initAuth0({
   client_id: clientId,
