@@ -1,0 +1,63 @@
+{
+  "name": "@dreamonkey/vue-auth0",
+  "version": "0.0.1",
+  "description": "@auth0/auth0-spa-js wrapper in the 'Vue way', with full TS support",
+  "keywords": [
+    "vue",
+    "vue-router",
+    "auth0",
+    "typescript",
+    "composable",
+    "guard"
+  ],
+  "author": "Paolo Caleffi <p.caleffi@dreamonkey.com> (https://github.com/IlCallo)",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts,.vue ./ --fix --report-unused-disable-directives",
+    "format": "prettier --write \"**/*.{json,md,graphql,vue,js,ts}\" --ignore-path .gitignore",
+    "build": "rimraf dist && tsc --declaration",
+    "deploy": "yarn build && yarn publish --tag latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamonkey/vue-auth0"
+  },
+  "bugs": "https://github.com/dreamonkey/vue-auth0/issues",
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.14.12",
+    "yarn": ">= 1.17.3"
+  },
+  "devDependencies": {
+    "@auth0/auth0-spa-js": "^1.19.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.3",
+    "vue": "^3.1.2",
+    "vue-router": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@auth0/auth0-spa-js": "^1.19.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vue-router": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@vueuse/core": "^7.5.3"
+  }
+}
