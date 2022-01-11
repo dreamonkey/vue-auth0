@@ -8,6 +8,12 @@ import createAuth0Client, {
 import { invoke, until } from '@vueuse/core';
 import { reactive, ToRefs, toRefs } from 'vue';
 
+/**
+ * The user data object returned from Auth0,
+ * you can augment this interface to remove fields optionality
+ * and add custom properties.
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Auth0User extends User {}
 
 // Extract public interface from class definition

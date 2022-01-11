@@ -20,7 +20,7 @@
     "lint": "eslint --ext .js,.ts,.vue ./ --fix --report-unused-disable-directives",
     "format": "prettier --write \"**/*.{json,md,graphql,vue,js,ts}\" --ignore-path .gitignore",
     "build": "rimraf dist && tsc --declaration",
-    "deploy": "yarn build && yarn publish --tag latest"
+    "deploy": "pnpm build && pnpm publish --tag latest"
   },
   "repository": {
     "type": "git",
