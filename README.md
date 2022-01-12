@@ -1,7 +1,11 @@
 # vue-auth0
 
-This is a wrapper around `@auth0/auth0-spa-js` meant to ease the usage into Vue projects.
+This is a wrapper around `@auth0/auth0-spa-js` meant to ease its usage into Vue projects.
 This is heavily inspired by the [snippet](https://auth0.com/docs/quickstart/spa/vuejs#create-an-authentication-wrapper) into Auth0 official documentation, but with a couple more helpers and TS support.
+
+I would place a disclaimer here that informs the user without having to go and look at the package.json that this wrapper only supports Vue3.
+
+Similarly (tell me if I'm wrong) this only supports Composition API?
 
 ## Install
 
@@ -43,7 +47,7 @@ export default boot(({ app }) => {
 
 Check out [`@auth0/auth0-spa-js` documentation](https://github.com/auth0/auth0-spa-js#documentation) to learn about initialization options, as `initAuth0` accepts all options from original `createAuth0Client` method.
 
-You can the naccess the Auth0 singleton instance via `useAuth0` composable.
+You can then access the Auth0 singleton instance via `useAuth0` composable.
 
 ```ts
 import { useAuth0 } from '@dreamonkey/vue-auth0';
@@ -53,7 +57,7 @@ const { user /*, ... other stuff */ } = useAuth0();
 
 ## Options
 
-`initAuth0` accepts a couple custom options in addition to those of `createAuth0Client` method.
+`initAuth0` accepts a couple of custom options in addition to those of `createAuth0Client` method.
 
 ### redirectUri (default: `window.location.origin`)
 
@@ -94,7 +98,7 @@ import '@dreamonkey/vue-auth0';
 declare module '@dreamonkey/vue-auth0' {
   interface Auth0User {
     twitter_handle: string; // <--- Specify a custom property which doesn't exist into User by default
-    name: string; // <--- Override User property, won't be shown as optional anymore
+    name: string; // <--- Override User property, it won't be shown as optional anymore
   }
 }
 ```
@@ -139,12 +143,12 @@ This is how the method behaved before version 1.19.0.
 ### `getTokenSilentlyVerbose`
 
 Original `getTokenSilently` method with `detailedResponse` forced to `true`.
-Splitting the method was required to support proper types, as wrapping a function and trying to infer its return type won't work if the original function has an overloaded signature.
+Splitting the original method was required to support proper types, as wrapping a function and trying to infer its return type won't work if the original function has an overloaded signature.
 
 ### `initializationCompleted`
 
 Returns a Promise resolving when initialization completes.
-Use this when you need to be sure initialization completed and cannot use `onInitializationCompleted` hook.
+Use this when you need to be sure initialization is completed and you cannot use `onInitializationCompleted` hook.
 
 ```ts
 const { initializationCompleted } = useAuth0();
@@ -158,15 +162,15 @@ async function doStuff() {
 
 ## Hooks
 
-Some common events hooks has been created, ensuring your code is executed after a given trigger condition is met.
-Since they're based on internal state refs rather than an event system, if the trigger condition is valid when the hook is registered (eg. login already happened), the callback will be executed right away.
+Some common events hooks have been created, ensuring your code can be executed only after a given trigger condition is met.
+Since they are based on internal state refs rather than an event system, if the trigger condition is valid when the hook is registered (eg. login already happened) the callback will be executed immediately.
 
 ### `onInitializationCompleted`
 
 Trigger: Auth0 client initialization completes.
-Use case: run code using Auth0 if you're not sure Auth0 client is initialized already.
+Use case: run code using Auth0 only after the client is initialized.
 
-`initializationCompleted` method could be used to obtain the same result, but with a different syntax.
+`initializationCompleted` method could be used to achieve the same result, but with a different syntax.
 
 ```ts
 const { onInitializationCompleted } = useAuth0();
@@ -179,8 +183,8 @@ onInitializationCompleted(() => {
 ### `onLogin`
 
 Trigger: login process completes successfully.
-Use case: run code once the user log in.
-User data object is provided as parameter for convenience.
+Use case: run code once the user logs in.
+User data object is provided as a parameter for convenience.
 
 Examples:
 
@@ -199,12 +203,12 @@ onLogin((user) => {
 ### `onLogout`
 
 Trigger: logout process completes.
-Use case: run code once the user log out.
+Use case: run code once the user logs out.
 
 Examples:
 
 - cleanup user-related data;
-- interrupt a websocket connection reserved to authenticated users.
+- interrupt a websocket connection reserved to authenticated user.
 
 ```ts
 const { onLogout } = useAuth0();
@@ -216,14 +220,14 @@ onLogout(() => {
 
 ## Vue Router Guards
 
-If you're using Vue Router, you'll often need to guard some routes depending from the user authentication status.
+If you are using Vue Router, you will often need to guard some routes depending on the user authentication status.
 This package provides you some helpers to deal with common scenarios.
 
 ### `authGuard`
 
 Use this helper to create guards relying on the user authentication status.
-The first param your callback receives is a boolean representing the authentication status, while second and third params are the deprecated `to` and `from` Vue Router guards params.
-The returned guard is async as it awaits for the Auth0 client to be initialized before proceeding.
+The first param your callback receives is a boolean representing the authentication status, while the second and third params are the deprecated `to` and `from` Vue Router guards params.
+The returned guard is `async` as it `awaits` for the Auth0 client to be initialized before proceeding.
 
 ```ts
 export const redirectIfAuthenticatedGuard = authGuard((isAuthenticated) => {
@@ -241,7 +245,7 @@ You can then access it into `onRedirectCallback` to redirect the user to the pag
 ## Recipes
 
 Here are some common use cases you may need in your projects.
-We'll gladly accept PRs adding new recipes if the use case is common enough.
+We will gladly accept PRs adding new recipes if the use case is common enough.
 
 ### Add access token as Authorization header using Axios
 
