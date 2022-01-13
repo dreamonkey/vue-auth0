@@ -1,11 +1,9 @@
 # vue-auth0
 
-This is a wrapper around `@auth0/auth0-spa-js` meant to ease its usage into Vue projects.
-This is heavily inspired by the [snippet](https://auth0.com/docs/quickstart/spa/vuejs#create-an-authentication-wrapper) into Auth0 official documentation, but with a couple more helpers and TS support.
+This is a wrapper around `@auth0/auth0-spa-js` meant to ease its usage into Vue3 projects.
+This is heavily inspired by the [snippet](https://auth0.com/docs/quickstart/spa/vuejs#create-an-authentication-wrapper) into Auth0 official documentation, but with a couple more helpers.
 
-I would place a disclaimer here that informs the user without having to go and look at the package.json that this wrapper only supports Vue3.
-
-Similarly (tell me if I'm wrong) this only supports Composition API?
+This wrapper supports both JS and TS codebases.
 
 ## Install
 
@@ -47,12 +45,18 @@ export default boot(({ app }) => {
 
 Check out [`@auth0/auth0-spa-js` documentation](https://github.com/auth0/auth0-spa-js#documentation) to learn about initialization options, as `initAuth0` accepts all options from original `createAuth0Client` method.
 
-You can then access the Auth0 singleton instance via `useAuth0` composable.
+You can then access the Auth0 singleton instance via `useAuth0` composable
 
 ```ts
 import { useAuth0 } from '@dreamonkey/vue-auth0';
 
 const { user /*, ... other stuff */ } = useAuth0();
+```
+
+or, in templates or Option API, via the `$auth` global property
+
+```ts
+<button @click="$auth.loginWithRedirect()">Login</button>
 ```
 
 ## Options
@@ -162,8 +166,8 @@ async function doStuff() {
 
 ## Hooks
 
-Some common events hooks have been created, ensuring your code can be executed only after a given trigger condition is met.
-Since they are based on internal state refs rather than an event system, if the trigger condition is valid when the hook is registered (eg. login already happened) the callback will be executed immediately.
+Some common events hooks have been created, ensuring your code will be executed only after a given trigger condition is met.
+Since they're based on internal state refs rather than an event system, if the trigger condition is valid when the hook is registered (eg. login already happened) the callback will be executed immediately.
 
 ### `onInitializationCompleted`
 
@@ -208,7 +212,7 @@ Use case: run code once the user logs out.
 Examples:
 
 - cleanup user-related data;
-- interrupt a websocket connection reserved to authenticated user.
+- interrupt a websocket connection reserved to authenticated users.
 
 ```ts
 const { onLogout } = useAuth0();
@@ -220,14 +224,14 @@ onLogout(() => {
 
 ## Vue Router Guards
 
-If you are using Vue Router, you will often need to guard some routes depending on the user authentication status.
+If you're using Vue Router, you'll often need to guard some routes depending on the user authentication status.
 This package provides you some helpers to deal with common scenarios.
 
 ### `authGuard`
 
 Use this helper to create guards relying on the user authentication status.
-The first param your callback receives is a boolean representing the authentication status, while the second and third params are the deprecated `to` and `from` Vue Router guards params.
-The returned guard is `async` as it `awaits` for the Auth0 client to be initialized before proceeding.
+The first param your callback receives is a boolean representing the authentication status, while second and third params are the deprecated `to` and `from` Vue Router guards params.
+The returned guard is async as it awaits for the Auth0 client to be initialized before proceeding.
 
 ```ts
 export const redirectIfAuthenticatedGuard = authGuard((isAuthenticated) => {
@@ -245,7 +249,7 @@ You can then access it into `onRedirectCallback` to redirect the user to the pag
 ## Recipes
 
 Here are some common use cases you may need in your projects.
-We will gladly accept PRs adding new recipes if the use case is common enough.
+We'll gladly accept PRs adding new recipes if the use case is common enough.
 
 ### Add access token as Authorization header using Axios
 
