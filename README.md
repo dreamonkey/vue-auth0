@@ -230,7 +230,7 @@ This package provides you some helpers to deal with common scenarios.
 ### `authGuard`
 
 Use this helper to create guards relying on the user authentication status.
-The first param your callback receives is a boolean representing the authentication status, while second and third params are the deprecated `to` and `from` Vue Router guards params.
+The first param your callback receives is a boolean representing the authentication status, while the second and third params are the deprecated `to` and `from` Vue Router guards params.
 The returned guard is async as it awaits for the Auth0 client to be initialized before proceeding.
 
 ```ts
