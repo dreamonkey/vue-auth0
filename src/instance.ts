@@ -172,23 +172,24 @@ export function initAuth0<AppStateType>({
   };
 
   /** Handles the callback when logging in using a redirect */
-  const handleRedirectCallback: Auth0Client['handleRedirectCallback'] =
-    async () => {
-      state.loading = true;
-      try {
-        const result = await state.auth0Client.handleRedirectCallback();
-        state.user = await state.auth0Client.getUser();
-        state.isAuthenticated = true;
-        state.error = undefined;
-        return result;
-      } catch (e) {
-        state.error = e;
-        // Won't be compliant with `Auth0Client['handleRedirectCallback']` without a returned object
-        return {};
-      } finally {
-        state.loading = false;
-      }
-    };
+  const handleRedirectCallback: Auth0Client['handleRedirectCallback'] = async (
+    url?: string
+  ) => {
+    state.loading = true;
+    try {
+      const result = await state.auth0Client.handleRedirectCallback(url);
+      state.user = await state.auth0Client.getUser();
+      state.isAuthenticated = true;
+      state.error = undefined;
+      return result;
+    } catch (e) {
+      state.error = e;
+      // Won't be compliant with `Auth0Client['handleRedirectCallback']` without a returned object
+      return {};
+    } finally {
+      state.loading = false;
+    }
+  };
 
   /** Authenticates the user using the redirect method */
   const loginWithRedirect: Auth0Client['loginWithRedirect'] = (options) => {
